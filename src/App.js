@@ -29,12 +29,29 @@ class App extends React.Component {
     ]
   };
 
+    //player id counter
+    prevPlayerId = 4;
 
   handleScoreChange = (index, delta) => {
     this.setState( prevState => ({
       score: prevState.players[index].score += delta
     }));
     console.log('index: ' + index, 'delta: ' + delta);
+  }
+
+  handleAddPlayer = (name) => {
+    this.setState( prevState => {
+      return {
+      players: [
+        ...prevState.players,
+        {
+          name,
+          score: 0,
+          id: this.prevPlayerId += 1
+        }
+      ]
+    };
+    });
   }
 
   handleRemovePlayer = (id) => {
@@ -65,7 +82,7 @@ class App extends React.Component {
             removePlayer={this.handleRemovePlayer}           
           />
         )}
-        <AddPlayerForm />
+        <AddPlayerForm addPlayer={this.handleAddPlayer}/>
       </div>
     );
   }
